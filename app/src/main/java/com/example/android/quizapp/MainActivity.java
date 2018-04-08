@@ -1,21 +1,14 @@
 package com.example.android.quizapp;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    // initial score
-    int baseScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
     }
+
     /**
      * This method is called when the submit button is clicked.
      */
@@ -80,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         // Figure out if the user has answered question seven
         RadioButton seven_c_Radiobutton = findViewById(R.id.Seven_c);
         boolean hasSeven_c = seven_c_Radiobutton.isChecked();
+//        seven_c_Radiobutton.setChecked(false);
 
         // Figure out if the user has answered question eight
         RadioButton eight_c_Radiobutton = findViewById(R.id.Eight_c);
@@ -89,98 +84,94 @@ public class MainActivity extends AppCompatActivity {
         EditText nameField = findViewById(R.id.name_field);
         String user_name = nameField.getText().toString();
 
-        int score = calculateScore(hasOne_a,hasOne_b,hasOne_c,hasOne_d,hasTwo_c,hasThree_a,hasThree_b,hasThree_c,hasThree_d,hasFour_b,
-                hasFive_a,hasFive_b,hasFive_c,hasFive_d,hasSix_b,hasSeven_c,hasEight_c);
+        int score = calculateScore(hasOne_a, hasOne_b, hasOne_c, hasOne_d, hasTwo_c, hasThree_a, hasThree_b, hasThree_c, hasThree_d, hasFour_b,
+                hasFive_a, hasFive_b, hasFive_c, hasFive_d, hasSix_b, hasSeven_c, hasEight_c);
 
-        if(score>20){
-              Toast.makeText(this,"Congratulations "+ user_name + "you have " + score + " /40 points!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this,"Good trial "+ user_name + "you have " + score + " /40 points",Toast.LENGTH_SHORT).show();
+        if (score > 20) {
+            Toast.makeText(this, "Congratulations " + user_name + "you have " + score + " /40 points!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Good trial " + user_name + "you have " + score + " /40 points", Toast.LENGTH_SHORT).show();
             //finish();
         }
-}
+    }
+
     /**
      * Calculates the score of the user
      *
-     * @param One_a whether or not the user chose One(a)
-     * @param One_b whether or not the user chose One(b)
-     * @param One_c whether or not the user chose One(c)
-     * @param One_d whether or not the user chose One(d)
-     * @param Two_c whether or not the user chose Two(c)
+     * @param One_a   whether or not the user chose One(a)
+     * @param One_b   whether or not the user chose One(b)
+     * @param One_c   whether or not the user chose One(c)
+     * @param One_d   whether or not the user chose One(d)
+     * @param Two_c   whether or not the user chose Two(c)
      * @param Three_a whether or not the user chose Three(a)
      * @param Three_b whether or not the user chose Three(b)
      * @param Three_c whether or not the user chose Three(c)
      * @param Three_d whether or not the user chose Three(d)
-     * @param Four_b whether or not the user chose Four(b)
-     * @param Five_a whether or not the user chose Five(a)
-     * @param Five_b whether or not the user chose Five(b)
-     * @param Five_c whether or not the user chose Five(c)
-     * @param Five_d whether or not the user chose Five(d)
-     * @param Six_b whether or not the user chose Six(b)
+     * @param Four_b  whether or not the user chose Four(b)
+     * @param Five_a  whether or not the user chose Five(a)
+     * @param Five_b  whether or not the user chose Five(b)
+     * @param Five_c  whether or not the user chose Five(c)
+     * @param Five_d  whether or not the user chose Five(d)
+     * @param Six_b   whether or not the user chose Six(b)
      * @param Seven_c whether or not the user chose Seven(c)
      * @param Eight_c whether or not the user chose Eight(c)
-     *
-     *
      * @return total score
      */
-    private int calculateScore(boolean One_a,boolean One_b,boolean One_c,boolean One_d,boolean Two_c,boolean Three_a,boolean Three_b,
-                               boolean Three_c, boolean Three_d,boolean Four_b,
-                               boolean Five_a,boolean Five_b ,boolean Five_c,boolean Five_d, boolean Six_b, boolean Seven_c,boolean Eight_c) {
+    private int calculateScore(boolean One_a, boolean One_b, boolean One_c, boolean One_d, boolean Two_c, boolean Three_a, boolean Three_b,
+                               boolean Three_c, boolean Three_d, boolean Four_b,
+                               boolean Five_a, boolean Five_b, boolean Five_c, boolean Five_d, boolean Six_b, boolean Seven_c, boolean Eight_c) {
 
+        int baseScore = 0;
 
         // add 0 points if user chooses all choices
-        if (One_a && One_c && (One_b && One_d)){
+        if (One_a && One_c && (One_b && One_d)) {
             baseScore += 0;
         }
         // add 0 points if user chooses a and c plus a or c
-        else if (One_a && One_c && (One_b || One_d)){
+        else if (One_a && One_c && (One_b || One_d)) {
             baseScore += 0;
-        }
-        else if (One_a && One_c ) {
+        } else if (One_a && One_c) {
             baseScore += 5;
         }
         // if choices a or c are chosen plus wrong answers
         else if (One_a || One_c && (One_b && One_d)) {
             baseScore += 0;
         }
-        if (Two_c){
+        if (Two_c) {
             baseScore += 5;
         }
-        if (Three_c && Three_d && (Three_b && Three_a)){
+        if (Three_c && Three_d && (Three_b && Three_a)) {
             baseScore += 0;
         }
         // add 0 points if user chooses a and c plus a or c
-        else if (Three_c && Three_d && (Three_b || Three_a)){
+        else if (Three_c && Three_d && (Three_b || Three_a)) {
             baseScore += 0;
-        }
-        else if (Three_c && Three_d ) {
+        } else if (Three_c && Three_d) {
             baseScore += 5;
         }
         // if choices c or d are chosen plus wrong answers
         else if (Three_c || Three_d && (Three_b && Three_a)) {
             baseScore += 0;
         }
-        if (Four_b){
+        if (Four_b) {
             baseScore += 5;
         }
         // if choices a or c are chosen plus wrong answers
         if (Five_a && Five_c && Five_d && Five_b) {
             baseScore += 0;
-        }
-        else if (Five_a && Five_c && Five_d){
+        } else if (Five_a && Five_c && Five_d) {
             baseScore += 5;
         }
-        if (Six_b){
+        if (Six_b) {
             baseScore += 5;
         }
-        if (Seven_c){
+        if (Seven_c) {
             baseScore += 5;
         }
-        if (Eight_c){
+        if (Eight_c) {
             baseScore += 5;
         }
         //finish();
-        return  baseScore ;
+        return baseScore;
     }
 }
